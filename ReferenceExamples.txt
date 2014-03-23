@@ -1,0 +1,21 @@
+ReferencesAhmed, S., Sahinidis, N.V., 1998. Robust process planning under uncertainty. Industrial and Engineering Chemistry Research 37, 1883–1892.
+
+Alonso-Ayuso, A., Escudero, L.F., Garin, A., Ortuno, M.T., Perez, G., 2003. An approach for strategic supply chain planning under uncertainty based on stochastic 0-1 programming. Journal of Global Optimiza-tion 26, 97–124.
+
+Azaron, A., Katagiri, H., Kato, K., Sakawa, M., 2006. Modelling complexassemblies as a queueing network for lead time control. EuropeanJournal of Operational Research 174, 150–168.
+
+Blackhurst, J., Craighead, C., Elkins, D., Handfield, R., 2005. An empirically derived agenda of critical research issues for managing supply-chain disruptions. International Journal of Production Research 43 (19), 4067–4081.
+
+Azaron, A., Katagiri, H., Kato, K., Sakawa, M., 2007. A multi-objectivediscrete reliability optimization problem for dissimilar-unit standbysystems. OR Spectrum 29, 235–257.
+
+Azaron, A., Katagiri, H., Sakawa, M., 2007. Time-cost trade-off via optimalcontrol theory in Markov PERT networks. Annals of OperationsResearch 150, 47–64.
+
+Birge, J.R., Louveaux, F., 1997. Introduction to Stochastic Programming.Springer, New York.
+
+Boureston, J., Using intelligent search agents for CI. Compet. Intell. Mag., 2000, 3(1), 32–36.
+
+Chapman, P., Christopher, M., Ju ̈ ttner, U., Peck, H. and Wilding, R., Identifying andmanaging supply chain vulnerability. Focus, 2002, May, 59–64. Child, J., Organizational structure, environment and performance: the role of strategic choice.Sociology, 1972, 6, 1–22.
+
+Cooke, J.A., Brave New World. Logist. Manage. Distrib. Rep., 2002, 41(1), 31–34. Davidsson, P. and Wernstedt, F., A multi-agent system architecture for coordination ofjust-in-time production and distribution. Knowl. Eng. Rev., 2002, 17(4), 317–329.
+
+Spira, L.F. and Page, M. (2002), “Risk management: the reinvention of internal control and the changing role of internal audit”, Accounting, Auditing & Accountability Journal, Vol. 16 No. 4, pp. 640-61.Steele, P. and Court, B. (1996), Profitable Purchasing Strategies: A Manager’s Guide for Improving Organizational Competitiveness through the Skills of Purchasing, McGraw-Hill, London.Tchankova, L. (2002), “Risk identification – basic stage in risk management”, Environmental Management and Health, Vol. 13 No. 3, pp. 290-7.Treleven, M. and Schweikhart, S.B. (1988), “A risk/benefit analysis of sourcing strategies: single vs multiple sourcing”, Journal of Operations Management, Vol. 7 No. 4, pp. 93-114.Valla, J-P. (1982), “The concept of risk in industrial buying behaviour”, paper presented at a Workshop on Industrial Buying Behaviour, European Institute for Advanced Studies in Management, Brussels, December 9-10.White, D. (1995), “Application of system thinking to risk management: a review of the literature”, Management Decision, Vol. 33 No. 10, pp. 35-45.Wildavsky, A. (1985), Trial Without Error: Anticipation versus Resilience as Strategies for Risk Management, Centre for Independent Studies, Sydney.Williamson, O.E. (1975), Markets and Hierarchies: Analysis and Anti-trust Implications, The Free Press, New York, NY.

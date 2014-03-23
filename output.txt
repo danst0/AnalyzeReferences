@@ -1,0 +1,2516 @@
+128
+
+Tactical supply chain planning in the forest
+products industry through optimization and
+scenario-based analysis
+
+Daniel Beaudoin, Luc LeBel, and Jean-Marc Frayret
+
+Abstract: A mixed integer programming model that aims at supporting the tactical wood procurement decisions of a
+multifacility company is presented. This model allows for wood exchanges between companies. Furthermore, the mate-
+rial flow through the supply chain is driven by both a demand to satisfy (“pull” strategy) and a market mechanism
+(“push” strategy), enabling the planner to take into consideration both wood freshness and the notion of quality linked
+to the age of harvested wood into log, chips, and end-product demands. An inability to consider alternative plans for
+implementation, and the difficulty of assessing the performance of these plans in an uncertain environment, are two
+shortcomings of the manual planning process. A planning process, based on human planner – decision support system
+interactions that allows a company to overcome these shortcomings is therefore presented. The process combines
+Monte Carlo methods and an anticipation mechanism that will, in the long term, enable the company to take into ac-
+count equipment transportation costs. The proposed planning process leads to a multicriteria decision-making problem
+where the human planner has to select a plan to implement from a set of candidate plans. A hypothetical test case
+shows that it is possible to manage the wood flow from stump to end market in such a way as to preserve freshness
+and extract higher value from the logs processed in the mills. The test case also shows that the proposed planning pro-
+cess achieves an average profitability increase of 8.8% compared with an approach based on a deterministic model us-
+ing average parameter values. Finally, a sensitivity analysis reveals that the accuracy of standing inventory on harvest
+blocks and the anticipated market conditions are the most important parameters to consider in selecting a good wood
+procurement plan.
+
+Résumé : Cet article présente un modèle qui utilise la programmation linéaire mixte pour résoudre le problème de pla-
+nification tactique des approvisionnements forestiers d’une entreprise propriétaire de plusieurs usines. Le modèle per-
+met les échanges de bois entre compagnies. Les flux de matériaux à travers le réseau d’approvisionnement sont dictés
+tant par la demande à satisfaire (stratégie en flux tirés) que par un mécanisme de marché (stratégie en flux poussés).
+Ces stratégies permettent de tenir compte de la fraîcheur du bois et de la notion de qualité associée à l’âge du bois
+dans les demandes de billots, de copeaux et de produits finis. L’incapacité de considérer l’implantation de plans alter-
+natifs et la difficulté d’évaluer la performance de ces plans dans un environnement incertain sont deux points faibles
+d’un processus manuel de planification. Un processus de planification permettant de surmonter ces lacunes est présenté.
+Ce processus est basé sur les interactions entre une personne et un système d’aide à la décision. Il combine les métho-
+des Monte Carlo et un mécanisme d’anticipation qui permet à l’entreprise de tenir compte des coûts associés au dépla-
+cement des équipements. Le processus de planification proposé prend la forme d’un problème de prise de décision
+multicritère pour lequel le planificateur sélectionne un plan à implanter parmi un ensemble de plans candidats. Une
+étude de cas démontre qu’il est possible de gérer le flux de bois de la forêt jusqu’au marché, de manière à préserver sa
+fraîcheur et extraire plus de valeur des billots transformés aux usines. Aussi, les résultats d’une simulation démontrent
+que le processus de planification proposé permet d’augmenter les profits de 8,8 % en moyenne par rapport à une ap-
+proche basée sur un modèle déterministe utilisant la valeur moyenne des paramètres. Finalement, une analyse de sensi-
+bilité révèle que la précision de l’inventaire des volumes sur pied présents sur les parterres de coupe et l’anticipation
+des conditions de marché sont les paramètres les plus importants pour établir un bon plan d’approvisionnement.
+
+[Traduit par la Rédaction]
+
+Beaudoin et al.
+
+140
+
+1Corresponding author (e-mail: daniel.beaudoin.1@ulaval.ca).
+
+Received 19 October 2005. Accepted 11 August 2006. Published on the NRC Research Press Web site at cjfr.nrc.ca on 4 April
+2007.
+D. Beaudoin.1 Laboratoire d’Opérations Forestières, Faculté de Foresterie et de Géomatique, Pavillon Abitibi–Price, Université
+Laval, Québec, QC G1K 7P4, Canada.
+L. LeBel. Département de Science du Bois et de la Forêt, Faculté de Foresterie et de Géomatique, Pavillon Abitibi–Price,
+Université Laval, Québec, QC G1K 7P4, Canada.
+J.-M. Frayret. Départment de mathématiques et génie industriel, École polytechnique de Montréal, 2500, chemin de Polytechnique,
+Montréal, QC H3T 1J4, Canada.
+
+Can. J. For. Res. 37: 128–140 (2007)
+
+doi:10.1139/X06-223
+
+© 2007 NRC Canada
+
+Beaudoin et al.
+
+Introduction
+
+Wood procurement planning is a complex task, as a multi-
+tude of factors must be taken into account. It is even more
+complex in a multifirm environment, where firms may sup-
+ply each other, and where forest stands are composed of sev-
+eral tree species. Yet planning is still largely done on the
+basis of intuition and without mathematical programming
+support. Furthermore, the considerable amount of time re-
+quired to build a single plan precludes the evaluation of al-
+ternative plans.
+The contributions of this paper are (i) a detailed tactical
+model to support centralized annual planning by an inte-
+grated forest company that may own many mills, and allows
+for wood exchanges between companies; (ii) an extension of
+the market mechanism presented in Maness (1989) to antici-
+pate market needs, taking wood freshness into account;
+(iii) a planning process, that is, a process for generating and
+evaluating candidate plans.
+The remainder of this paper is organized as follows: a lit-
+erature review is presented in the next section, followed by a
+description of the problem. The planning process is then in-
+troduced with its different components. Then the mathemati-
+cal formulation of the tactical wood procurement model is
+shown. Following this is a description of a hypothetical test
+case. Finally, the results and concluding remarks are pre-
+sented.
+
+Literature review
+
+Models
+The use of mathematical models to deal with wood pro-
+curement problems can be traced back to the early 1960s.
+Since that time, a large body of models has been developed
+to address different aspects of wood procurement. Some
+have been designed for specific activities such as skidding
+(Carlsson et al. 1998) or transportation (Wightman and Jor-
+dan 1990; Weintraub et al. 1996). Others have integrated
+several activities within a single model to capture possible
+synergies between them. For instance, Burger and Jamnick
+(1995) integrated harvest, storage, and transportation deci-
+sions, while Karlsson et al. (2004) included allocation of
+harvest teams in addition to these factors. To our knowledge,
+no attempt has been made to address these decisions while
+taking into account mills’ anticipated production decisions,
+even though significant gains could be achieved through an
+increase in fiber freshness (i.e., a decrease in time elapsed
+between harvesting and processing at the mill).
+
+Deteriorating items
+In the last decade the industry has come to realize the im-
+portance of procuring fresh fiber. Common problems associ-
+ated with log storage are check development due to drying,
+and sap stain. Even if sap stain does not change the struc-
+tural integrity of the wood, it can severely affect its appear-
+ance, resulting in serious loss of value (Kreber et al. 2001).
+Laganière and Defo (2002) looked at the impact of timber
+freshness for sawmill operators. They identified problems
+associated with the log yard, debarking, sawing, drying,
+planing, and grading. They concluded that for all activities,
+older fiber is detrimental to a sawmill’s performance. Simi-
+
+129
+
+larly, Bicho (2002) and Wood (2002) discussed the impact
+of storage duration on pulp yield, pulp brightness, and pro-
+cessing costs of pulp mills.
+Production planning and scheduling of deteriorating items
+have long been the subject of articles, but such consider-
+ations have appeared only recently in models dealing with
+the problem of harvest and distribution planning. Karlsson et
+al. (2003) were among the first to introduce age-related stor-
+age costs. In their model, fiber deterioration is taken into ac-
+count by associating a reduction in value for different log
+assortments and different total storage times. Two improve-
+ments can be made to this approach. First, the reduction in
+value does not take into consideration the seasonal variation
+in the rate of deterioration of the fiber. It is not only the time
+elapsed between the moment a tree is harvested and the mo-
+ment it is transformed into diverse products that should be
+considered, but also the periods or seasons over which the
+elapsed time occurs. Second, their model considers the rate
+of deterioration to be the same regardless of the storage lo-
+cation and the end products to be manufactured. Storage lo-
+cations are sometimes far apart, and even if the seasonal rate
+of deterioration is the same, the season may begin at differ-
+ent times across the land base. Furthermore, mills may use
+different technologies and may not be affected in the same
+way by the freshness of the resource. The mathematical for-
+mulation proposed in this paper takes these considerations
+into account.
+
+Uncertainty
+Forest managers and researchers are increasingly con-
+cerned with uncertainty and would like to account for it
+when making decisions. Weintraub and Bare (1996) and
+Martell et al. (1998) identify wood procurement planning
+under uncertainty as a new challenge for researchers. To
+date, the majority of models tackling the wood procurement
+problem have focused on deterministic formulations of the
+problem. A fundamental property of deterministic models is
+that all required data are supposed to be known with cer-
+tainty. This is an important assumption that limits the valid-
+ity of any linear programming solution to a supply chain
+problem (Shapiro 2001). The main criticism of these appli-
+cations concerns not necessarily the use of deterministic de-
+cision models in nondeterministic environments but rather
+the lack of focus on analysis and validation of the so-called
+optimal solution. Contingency analysis is a necessary step
+before any decision is made.
+Relatively few studies that consider the role of stochastic
+conditions in addressing wood procurement problems have
+been undertaken. For a review of stochastic parameters and
+approaches adopted in order to take uncertainty into consid-
+eration, we refer the reader to Weintraub and Bare (1996)
+and Martell et al. (1998). The most commonly used method-
+ologies are “one at a time” sensitivity analysis and scenario-
+based analysis. One at a time sensitivity analysis is a
+point-by-point change that consists of varying the value of a
+parameter to find the extent to which the change affects the
+outcome, while scenario-based analysis is a process of ana-
+lyzing potential future events by considering possible alter-
+native outcomes. Major drawbacks of these two methods are
+their inability to evaluate the impact of the interactions be-
+tween the various stochastic parameters and a lack of knowl-
+
+© 2007 NRC Canada
+
+130
+
+Can. J. For. Res. Vol. 37, 2007
+
+Fig. 1. Example of a mill’s valuation function for a given re-
+source over a particular season.
+
+edge concerning the probability of occurrence of each
+scenario. An adaptation of the two-stage stochastic decom-
+position method presented in Goetschalckx et al. (2001) per-
+mits these shortcomings to be overcome.
+
+Description of the problem
+
+The problem we consider is that most productive forested
+land is within the public domain. This land base is divided
+into procurement areas. Government allocates volumes of
+timber to mills through timber licenses (TL). A TL is
+awarded to a mill regardless of its ownership. A TL speci-
+fies, on a yearly basis, the areas from which wood for the
+mill can be procured, with predefined volumes of one or
+more resource types (tree species). A mill may hold a TL on
+more than one procurement area, and several TLs may be
+awarded to different mills on the same procurement area,
+even for the same tree species. Sharing a procurement area
+means that in a single block, harvested volumes are sorted
+according to their characteristics and their suitability for
+manufacture into certain product types (such as softwood
+lumber, hardwood lumber, pulp, and veneer) so that they can
+be delivered to the appropriate mills. Furthermore, even if
+most companies manage their own operations, part of their
+requirements for raw materials must be met through the pur-
+chasing of logs from other companies’ operations, owing to
+the mixed nature of stands. These relationships are charac-
+terized by pooled-type dependencies, also called resource-
+sharing dependency (Frayret et al. 2004), and must be man-
+aged by coordinating procurement activities. To supply its
+mills, a company must coordinate its operations in several
+procurement areas and with those of other companies.
+The problem at hand is to maximize a firm’s profit while
+satisfying demand for end products and wood chips covered
+under agreements or contracts, and demand for logs from
+other companies. The model proposed here takes into ac-
+count volume restrictions based on the origin of the wood
+over the land base and the deterioration of fiber, which af-
+fects the net revenue obtained from the sale of end products.
+The developed model addresses the problem of tactical
+wood procurement planning. We assume that a strategic plan
+has been previously executed. The output from this process
+is a 5 year development plan that identifies blocks to be har-
+vested in each of the 5 years. The annual plan includes more
+details surrounding activities on blocks identified for har-
+vesting in the first year of the 5 year development plan. It is
+assumed that volumes of each resource on every block are
+known. A resource is defined by type and quality by the
+government in order to determine stumpage fees. It should
+be noted that stumpage fees for the same resource are fixed
+over a tariff zone but vary from one zone to another. A pro-
+curement area may cover more than one tariff zone.
+
+Market-anticipation functions
+Minimizing procurement costs while satisfying mills’ de-
+mand is an adequate objective from a supplier’s point of
+view. However, in an integrated wood production system it
+seems to be short-sighted. As outlined by Gingras and
+Sotomayor (1992), increased procurement costs would be
+acceptable and justifiable to preserve fiber quality as long as
+the incurred cost is offset by a reduction in processing costs
+
+at the mill or by a gain in revenue from the sale of products
+and by-products. Therefore, our model attempts to integrate
+harvesting decisions with anticipated log distribution and
+mills’ aggregated production planning. Because only part of
+a mill’s production capacity is covered by long-term con-
+tracts with customers, the use of the excess capacity must be
+planned in order to provide end products to the open market.
+The market mechanism presented by Maness (1989) has
+been adapted to take fiber freshness into consideration and is
+illustrated in Fig. 1.
+Market-anticipation functions are used to estimate which
+aggregated levels of production at the mills are the most
+profitable in order to guide upstream operations. Such a
+function uses valuation levels. A valuation level represents
+the average unit revenue from the sale of a particular end
+product made from a given resource, minus its average pro-
+cessing cost. The valuation level is constrained by the maxi-
+mum number of units that can be sold at that valuation level.
+As availability increases within an age class, the valuation
+decreases, reflecting the lower confidence one may have that
+all of the end products to be produced can be sold. Age
+classes are bounded by a lower value and an upper value and
+do not have to be homogeneous in length. Valuation levels
+are defined for each age class. Variation over age classes re-
+flects the processing cost and quality of the end products.
+The older the fiber used, the lower the expected profit mar-
+gin on the end product. Deterioration of wood fiber is thus
+taken into account through a reduction in value.
+Yang et al. (1999, 2001) indicate that the degree of deteri-
+oration may vary with the season, tree species, local environ-
+ment, and storage conditions. Thus, a market-anticipation
+function is required for each resource in every season in or-
+der to take into consideration the seasonality of the deterio-
+ration rate and the market price of the end product.
+Moreover, every mill may have its own market-anticipation
+functions because of differences in the end products being
+manufactured or the technology being used.
+
+Planning process
+
+Among the shortcomings of a manual planning process
+are its inability to consider alternative plans for implementa-
+tion and the difficulty involved in assessing the performance
+of these plans in a stochastic environment. The proposed
+
+© 2007 NRC Canada
+
+Beaudoin et al.
+
+Fig. 2. The planning process.
+
+planning process (Fig. 2) is an adaptation and extension of
+the two-stage stochastic decomposition method developed
+and presented in Goetschalckx et al. (2001). The proposed
+planning process overcomes both of these shortcomings.
+The mathematical deterministic model that follows does
+not address robustness explicitly. Rather, the proposed plan-
+ning process makes use of a set of mechanisms to assess a
+posteriori how several alternative plans meet some key ob-
+jectives. The proposed planning process starts by creating
+scenarios by randomly generating values for the uncertain
+parameters for each period considered in the model, based
+on their given probability distribution functions. For each
+scenario the optimal plan (referred to as the candidate plan)
+is determined by solving a deterministic mixed integer pro-
+gram. Each candidate plan is then further analyzed by
+(i) subjecting it to the harvest block sequencing and equip-
+ment transportation anticipation model in order to evaluate
+the operational equipment transportation cost of the plan and
+(ii) simulating it using different scenarios. In each of these
+steps, statistics are gathered to help the planner resolve the
+resulting multicriteria decision problem.
+
+Scenario generator
+Uncertainty is inherently present in a wood procurement
+network. Scenarios are generated using the Monte Carlo
+method. This is useful for evaluating interdependencies
+among random effects that may cause serious degradation in
+performance even though the average performance charac-
+teristics of the system’s components appear to be acceptable
+(Shapiro 2001). The Monte Carlo method uses probability
+distribution functions of key factors of uncertainty in the
+supply chain to generate random variables.
+
+Deterministic wood procurement planning model
+For each scenario a deterministic mixed integer program
+is used to find the optimal plan. Each scenario corresponds
+to an optimal plan (i.e., the candidate plan). In this model
+(see the next section), because of block sizes, which range
+from a few hectares to over 100 ha, and the desire to reduce
+inventories, preemption is allowed in regard to harvesting
+(i.e., a block does not have to be harvested all at once).
+
+131
+
+Harvest block sequencing and equipment
+transportation anticipation model
+Owing to the highly combinatorial nature of the block se-
+quencing problem, equipment transportation cost is not in-
+cluded in the tactical model. Instead, this cost is taken into
+account by anticipating, for each candidate plan, the opera-
+tional model’s output for the sequencing problem. The pur-
+pose of this model is to minimize a firm’s equipment
+transportation cost while harvesting targeted volumes identi-
+fied per period in the candidate plans. The model identifies
+an operational plan that takes into account the time that
+equipment spends harvesting and moving from one block to
+another. The model is designed to address particularly the
+problem of harvest block sequencing and equipment trans-
+portation. For more details about this aspect of the planning
+process, the reader is referred to Beaudoin et al. (2005).
+
+Rule-based simulation
+Rule-based simulation aims at assessing how a given plan
+unfolds if different scenarios occur. Instead of randomly
+generating new scenarios to evaluate each candidate plan,
+we used those previously generated, as suggested by Novak
+and Ragsdale (2003). In their work, those authors reformu-
+late the problem before reevaluating candidate solutions un-
+der alternative scenarios. This reformulation is necessary to
+avoid violating the flow-conservation constraints. To avoid
+this reformulation we use a rule-based simulation approach.
+More specifically, rules are defined in terms of “if–then”.
+These rules adjust the values of output variables so as to re-
+spect the capacities and other parameters of the scenarios.
+For example, let us say that the plan under consideration
+identifies a target of 500 m3 to be harvested on a specific
+block, but under the current scenario that block holds only
+450 m3. The harvest variable for that block is then adjusted
+downward in order to respect the capacity of the block. In
+cases where there is no breach in capacity, no adjustment is
+required. The same rule also applies to the transportation,
+storage, and milling variables of the candidate plan. Since
+activities along supply chains are highly dependent, flow-
+balancing adjustments are also required to reflect previous
+adjustments.
+
+Decision-making
+Finally, different metrics are calculated and gathered in
+order to assess each plan and support decision-making.
+These metrics include the average and standard deviation of
+profit, the equipment transportation cost, the volumes to be
+acquired from private woodlot owners, and the feasibility of
+the plan. Volumes to be acquired from private woodlot own-
+ers correspond to the missing volumes of resources needed
+to satisfy demand for end products and wood chips. Mean-
+while, if demand for logs from other companies cannot be
+met by the company’s operations according to the terms
+agreed upon, then the plan is deemed infeasible. This indica-
+tor captures the risk associated with a plan due to the propa-
+gation of the stochastic effects throughout the network of
+interdependent companies. It should be noted that the met-
+rics used for decision-making are not restricted to those pre-
+sented here. Any metrics representing the preferences of the
+decision-maker could be accommodated through the pro-
+posed planning process and its constituents.
+
+© 2007 NRC Canada
+
+132
+
+Can. J. For. Res. Vol. 37, 2007
+
+The proposed planning process thus provides insights into
+the system’s performance, something that cannot be obtained
+by using deterministic optimization models on their own.
+The planner then faces a multicriteria decision problem in
+selecting a candidate plan for implementation. Here the pro-
+cess is applied to plans generated with a deterministic opti-
+mization model. It can also be applied to plans generated
+intuitively by the planner or strictly based, for example, on
+the planner’s experience.
+
+Mathematical formulation
+
+In this section the mathematical model of a firm’s central-
+ized tactical wood procurement planning is presented. Data
+sets are introduced first, followed by the parameters and
+variables used to formulate the model. Finally the model for-
+mulation is described.
+
+Sets
+
+A:
+C:
+E:
+I:
+
+I(k):
+I(Ku):
+
+K:
+N:
+R:
+S:
+T:
+U:
+U ′:
+K(u):
+
+Set of possible ages of the harvested timber
+Set of age classes
+Set of other firms
+Set of harvesting blocks within the procurement areas
+covered under the TLs of the mills under the com-
+pany’s ownership
+Set of procurement areas
+Set of valuation levels
+Set of forest resources
+Set of forest resource types
+Number of periods
+Set of mills under the company’s ownership
+Set of mills under other ownership
+Set of procurement areas covered under the TL of mill
+u
+Set of blocks within procurement area k
+Set of blocks within the procurement areas covered un-
+der the TL of mill u, for u ∈ U or u ∈ U ′
+R(s):
+Set of resources with the same tree species
+Set of resources desirable for mill u, for u ∈U or u ∈U ′
+R(u):
+A resource is said to be desirable or usable by a mill when
+it is entitled to that resource type according to its TL and is
+of an acceptable quality in regard to the end product into
+which it will be transformed.
+In the remainder of this paper, a will be used for ages of
+harvested timber, c for age classes, e for firms, i for blocks,
+k for procurement areas, n for valuation levels, r for re-
+sources, s for resource type, t for periods, u for own mills,
+and u′ for others’ mills.
+
+H :
+cit
+S :
+crit
+S :
+crut
+
+Parameters
+− +
+lower and upper ages in age class c
+:
+,
+ac a
+c
+H :
+total harvesting capacity in period t
+bt
+T :
+total transportation capacity in period t
+bt
+S :
+total storage capacity at mill u during period t
+but
+P :
+total processing capacity of mill u during period t
+but
+min. :
+minimum volume of resource r stored at mill u during
+brut
+period t
+unit cost to harvest block i during period t
+unit cost to store resource r on block i during period t
+unit cost to store resource r at mill u during period t
+
+T :
+criut
+
+:
+
+d
+
+′
+u t
+
+li:
+
+F :
+I rai0
+
+T ′ :
+criu t
+
+U :
+I rau0
+
+log
+dra
+max
+u ′
+
+market :
+grucnt
+
+chips
+max :
+sa
+u ut
+
+frit :
+chips :
+gsut
+
+nt :
+ν ri :
+ν suk :
+ν rucnt
+max :
+
+unit cost to transport resource r from block i to mill u
+during period t
+unit cost to transport resource r from block i to mill u′
+during period t
+demand for chips of resource type s of maximum age
+max at mill u during period t
+au
+end product : demand for end products made from resource r of
+dra
+max
+ut
+u
+max at mill u during period t
+maximum age au
+max at
+demand for logs of resource r of maximum age au
+mill u′ during period t
+stumpage fee for resource r on block i during period t
+unit revenue from the sale of chips of resource type s
+at mill u during period t
+average unit revenue, from the sale of excess produc-
+tion net of processing cost, for end products made from
+resource r within age class c at mill u and sold at valu-
+ation level n on the open market during period t
+volume of resource r of age a stored on block i at the
+beginning of the planning horizon
+volume of resource r of age a stored at mill u at the be-
+ginning of the planning horizon
+maximum number of periods over which harvesting
+can occur in block i
+maximum number of blocks in which harvesting can
+occur during period t
+volume of resource r available on block i
+maximum volume of resource type s that can be deliv-
+ered to mill u from procurement area k
+maximum volume of resource r within age class c that
+can be transformed and sold by mill u at valuation
+level n during period t
+volume of resource r of age a delivered from procure-
+ment area k to mill u by firm e during period t
+average yield of end products from processing resource
+r of age a through mill u
+average yield of chips from processing resource r of
+age a through mill u
+
+w raekut :
+α rau :
+γ rau :
+
+Decision variables
+Decisional variables and their relations with one another
+are summarized in Fig. 3, which illustrates the centralized
+planning problem from a firm’s perspective.
+Decision variables are divided into two distinct categories:
+primary decision variables and anticipated or secondary de-
+cision variables. Primary decision variables are those that
+the planner is responsible for instantiating. Anticipated deci-
+sion variables are needed to coordinate tactical decisions
+with operational decisions that will eventually be taken to
+operationalize the tactical plan. In other words, these sec-
+ondary decision variables only represent an aggregated an-
+ticipation of operational decisions for which the planner is
+not directly responsible.
+
+U :
+I raut
+
+Primary decision variables
+proportion of block i harvested during period t
+X it :
+F :
+volume of resource r of age a stored on block i at the
+I rait
+end of period t
+volume of resource r of age a stored at mill u at the
+end of period t
+
+© 2007 NRC Canada
+
+Fig. 3. Illustration of the wood procurement planning problem.
+
+Beaudoin et al.
+
+133
+
+H it:
+
+
+1, if harvesting occurs on block during time period
+i
+
+
+0,
+erwise
+oth
+
+t
+
+Yraiut :
+
+Draunt :
+
+Anticipated decision variables
+volume of resource r of age a transported from block i
+S raiu ′t :
+u′ during period t
+to mill
+volume of resource r of age a transported from block i
+to mill u during period t
+volume of end product made from resource r of age a
+that is sold by mill u at valuation level n on the open
+market during period t
+
+[1]
+
+∑ ∑
+∈
+∈
+u U
+r R
+( )
+u
+
+∑ ∑ ∑
+∈ ∈ ∈
+t T
+n N
+c C
+∑ ∑ ∑
+−
+∈ ∈ ∈
+r R
+i I
+t T
+
+
+
+
+
+
+market
+g
+rucnt
+
+νri rit
+f X
+
+it
+
+−
+
++
+a
+∑
+c
+−
+a
+c
+
++
+
+D
+raunt
+
+
+
+
+
+∑ ∑ ∑
+∈ ∈ ∈
+r R
+u U
+i I
+( )
+u
+
+
+∑
+∑ ∑
+
+
+
+∈
+∈ ∈
+t T
+u U
+s S
+
+∑ ∑
+
+T
+Y
+c
+raiut
+riut
+
+∈
+∈
+a A
+t T
+
+chips
+g
+sut
+
+M raut :
+
+volume of resource r of age a processed through mill u
+during period t
+All variables but one defined so far are continuous vari-
+ables. They can be interpreted as network flow variables in a
+multicommodity network describing the possible flows from
+harvesting blocks to the mills and through a milling process
+to supply different potential markets.
+
+Model
+Maximize:
+
+)
+
+γ
+
+−
+
+rau
+
+M
+raut
+
+
+
+− ∑ ∑ ∑
+∑ ∑
+
+
+H
+(
+c X
+
+it
+it
+
+
+∈ ∈
+∈
+∈
+∈
+t T
+i I
+r R
+a A
+r R
+( )
+s
+
+
+∑ ∑
+∑ ∑ ∑
+
+
+T
+c
+′
+riu t
+
+
+′ ∈ ′
+∈
+∈ ∩
+∈
+∈
+r R
+u U
+t T
+i I
+I
+a A
+′
+′
+(
+)
+Ku
+)
+(
+u
+
+
+∑ ∑ ∑ ∑
+
+ −
+−
+S
+c
+rit
+
+
+∈ ∈ ∈
+∈
+r R
+i I
+t T
+a A
+
+F
+I
+rait
+
+ν
+ri
+
+
+
+
+
+
+
+
+
+S
+′
+raiu t
+
+∑ ∑ ∑
+∈ ∈
+∈
+r R
+u U
+t T
+(u )
+
+
+
+
+
+S
+c
+rut
+
+∑
+∈
+a A
+
+U
+I
+raut
+
+
+
+
+
+Subject to:
+
+[2]
+
+[3]
+
+[4]
+
+[5]
+
+[6]
+
+[7]
+
+it
+
+it
+
+I
+
+X
+
+H
+
+≤ ∀ ∈
+1,
+i
+
+∑
+∈
+t T
+∀ ∈ ∀ ∈
+≤
+,
+,
+X H
+i
+I
+t
+it
+it
+∑
+≤ ∀ ∈
+,
+l
+i
+i
+∈
+t T
+∑
+∈
+i I
+
+≤ ∀ ∈
+,
+H
+n
+t
+T
+it
+t
+∑ ∑ ∑ ∑
+∈ ∩
+∈ ∈ ∈
+i I
+a A
+r R
+R
+t T
+( )
+( )
+( )
+k
+u
+s
+
+∑  ∑
+ ≤
+
+X
+it
+
+
+∈
+∈
+r R
+i I
+
+ν
+ri
+
+H
+b
+t
+
+I
+
+T
+
+∀ ∈
+t
+
+T
+
+Yraiut
+
++
+
+∑ ∑
+∈ ∩
+∈
+R
+r R
+A
+a
+( )
+( )
+s
+u
+
+∑ ∑
+∈ ∈
+t T
+e E
+
+w
+raekut
+
+≤
+
+ν
+
+suk
+
+∀ ∈ ∀ ∈ ∀ ∈
+,
+,
+S u U k K
+s
+
+( )
+u
+
+© 2007 NRC Canada
+
+Can. J. For. Res. Vol. 37, 2007
+
+F =
+[10b] I
+rait
+
+U
+[11b] I
+raut
+[11c]
+
+134
+
+[8]
+
+[9]
+
+[10a]
+
+[10c]
+
+[11a]
+
+[12]
+
+[13]
+
+[14]
+
+[15]
+
+[16]
+
+[17]
+
+[18]
+
+[19]
+
+[20]
+
+[21]
+
+0
+
+X
+
+=
+
+F
+I
+rai
+
+ν
+ri
+
+F
+I
+(
+r a
+
+∑ ∑ ∑ ∑
+∈ ∈ ∈ ∈
+r R
+u U
+a A
+i I
+(
+( )
+Ku
+u
+∑ ∑
+≤
+M
+raut
+∈
+∈
+r R
+a A
+( )
+u
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+∑ ∑
+∈
+∈
+a A
+r R
+( )
+u
+∑
+≥
+U
+I
+raut
+∈
+a A
++
+a
+∑
+c
+D
+raunt
+= −
+a a
+c
+max.
+a
+′
+∑ ∑
+u
+=
+∈ ∩
+1
+i
+i I
+a
+(
+Ku
+
+∑
+∈
+i I
+)
+(
+Ku
+U
+I
+−
+1
+(
+) (
+r a
+u t
+
+S
+′
+raiu t
+′
+
+min.
+b
+rut
+
+U
+I
+raut
+
+U
+I
+rau
+
+−
+
+≤
+
+≤
+
+0
+
+)
+
+max.
+a
+∑
+u
+=
+1
+a
+
+
+
+
+
+
+max.
+a
+∑ ∑
+
+u
+γ rau
+
+
+=
+∈
+1
+r R
+a
+( )
+s
+F ≥
+,
+X I
+rait
+it
+,
+
+,
+
+Y
+raiut
+S
+′
+raiu t
+it ∈
+H
+
+U
+I
+raut
+≥
+0
+
+01
+{ , }
+
+∑
+∈
+n N
+
+
+ ≥
+
+
+Y
+raiut
+
+)
+
+b
+
+P
+ut
+
++
+
+∑ ∑ ∑
+′ ∈ ′
+∈
+∈
+r R
+u U
+a A
+(
+u
+∀ ∈ ∀ ∈
+,
+u U
+t
+T
+
+′
+
+)
+
+∑
+∈
+i I
+(
+Ku
+
+′
+
+)
+
+S
+′
+raiu t
+
+≤
+
+T
+b
+t
+
+∀ ∈
+t
+
+T
+
+it
+
+−
+
+−
+
+Y
+raiut
+
+∑
+∑
+∀ ∈ ∀ ∈ ∀ ∈
+,
+,
+,
+R
+i
+I
+t
+T a
+r
+S
+Y
+′
+raiu t
+raiut
+′ ∈ ′
+∈
+∑
+∑
+u U
+u U
+∀ ∈ ∀ ∈ ∀ ≥
+−
+−
+,
+,
+i
+I
+t
+S
+r
+R
+Y
+′
+−
+−
+1
+) (
+)
+1
+raiu t
+i t
+raiut
+′ ∈ ′
+∈
+∑
+∑
+u U
+u U
+∀ ∈ ∀ ∈
+−
+−
+= ∀ ≥
+1
+,
+,
+S
+R
+i
+r
+a
+′
+raiu t
+′ ∈ ′
+∈
+u U
+u U
+
+,
+I t
+
+2
+
+=
+
+2
+,
+
+1
+∀ ≥
+a
+
+2
+
+Y
+raiut
+
++
+
+−
+1
+)
+∑
+∈
+i I
+(
+Ku
+
+S
+b
+ut
+
+)
+
+Y
+raiut
+
+∑
+∈
+e E
++
+
+w
+raekut
+
+∑
+∈
+k K
+∑
+( )
+u
++
+Y
+raiut
+∈
+i I
++ ∑ ∑
+)
+(
+Ku
+∈ ∈
+k K
+e E
+( )
+u
+∀ ∈ ∀ ∈
+,
+u U
+t
+
+T
+
+−
+M
+raut
+∑ ∑
+∈
+∈
+e E
+k K
+)
+(
+u
+−
+w
+raekut
+
+∀ ∈ ∀ ∈ ∀ ∈
+,
+,
+R
+u U r
+t
+( )
+u
+
+T
+
+∀ ∈ ∀ ∈
+,
+u U r
+
+R
+( )
+u
+
+,
+
+∀ ∈
+t
+
+,
+T a
+
+=
+
+1
+
+−
+
+w
+raekut
+
+M
+raut
+
+∀ ∈ ∀ ∈ ∀ ≥ ∀ ≥
+,
+2
+,
+,
+u U r
+R
+t
+a
+( )
+u
+
+2
+
+M
+raut
+
+∀ ∈ ∀ ∈
+,
+u U r
+
+R
+(
+
+) ,
+u
+
+t
+
+= ∀ ≥
+,
+1
+a
+
+2
+
+νmax.
+rucnt
+
+∀ ∈ ∀ ∈ ∀ ∈ ∀ ∈ ∀
+,
+,
+,
+,
+t
+R
+u U r
+c C n N
+( )
+u
+
+∈ T
+
+=
+
+log
+d
+max.
+ra
+′
+u
+
+′
+u t
+
+∀ ′ ∈
+u U
+
+′ ∀ ∈
+,
+r
+
+,
+R a
+′
+( )
+u
+
+max.
+′
+u
+
+∈ ∀ ∈
+,
+t
+A
+
+T
+
+
+ =
+
+
+end product
+d
+max.
+ra
+ut
+u
+
+αrau
+
+M
+raut
+
+−
+
+D
+raunt
+
+∀ ∈ ∀ ∈
+,
+u U r
+
+,
+R a
+( )
+u
+
+max.
+u
+
+∈ ∀ ∈
+,
+A
+t
+
+T
+
+,
+
+where
+
+α
+rau
+
+∈
+
+0 1
+[ ; ]
+
+M
+raut
+
+d
+
+chips
+max.
+sa
+u
+
+ut
+
+∀ ∈ ∀ ∈
+,
+u U s
+
+,
+S a
+
+max.
+u
+
+∈ ∀ ∈
+,
+A
+t
+
+T
+
+,
+
+where γ
+
+rau
+
+∈
+
+0 1
+[ ; ]
+
+0
+
+T
+
+∀ ∈ ∀ ∈ ∀ ∈ ∀ ∈
+,
+,
+,
+R a A
+i
+I
+t
+T
+r
+≥
+∀ ∈ ∀ ∈ ∀ ∈ ∀ ∈
+,
+,
+,
+0
+,
+a A
+i
+u U r
+R
+M D
+( )
+u
+raut
+raunt
+∀ ∈ ∀ ∈ ∀ ′ ∈
+∀ ∈
+′ ∀ ∈ ∩
+,
+,
+,
+r
+R a A u U
+t
+i
+I
+∀ ∈ ∀ ∈
+,
+i
+I
+t
+
+Ku
+
+I
+
+,
+
+(
+
+)
+
+′
+
+T
+
+I
+
+(
+
+Ku
+
+) ,
+
+∀ ∈ ∀ ∈
+,
+n N
+t
+
+T
+
+Objective function
+The objective function is a linear profit maximization
+equation. Revenues are derived from the sale of lumber and
+wood chips on the open market. Lumber and chips are al-
+ways sold during the period when they are produced. Note
+that revenues associated with the sale of logs and end prod-
+ucts covered under agreements, as well as costs incurred to
+buy logs from other suppliers, have been omitted from the
+objective function, since they are irrelevant to the decision
+problem at hand. They are covered under binding contracts
+and are thus parameters of the problem. The first term in
+eq. 1 represents the total revenues from the sale of excess
+end products on the open market, net of the mill’s process-
+ing costs. The second term corresponds to revenue from the
+sale of wood chips. It is assumed that all chips produced are
+
+sold to a single client, therefore the same rate is applied to
+every unit of chips produced.
+Even if revenues from the sale of logs are irrelevant to
+decision-making, it is important to take into account the
+costs incurred to satisfy these demands, as contracts specify
+the unit price agreed upon for delivery of the volumes of de-
+sired logs. By satisfying the demands of low-cost operations,
+a firm may increase its profit. The third and fourth terms ac-
+count for harvesting costs and stumpage fees. Harvesting
+costs include all activities from stump to roadside. The fifth
+and sixth terms correspond to transportation costs from the
+forest to the mills, i.e., owned and others’ mills, respectively.
+Storage costs are accounted for in the last two terms of
+eq. 1.
+This model sets production targets per period. The length
+
+© 2007 NRC Canada
+
+Beaudoin et al.
+
+135
+
+of a period is such that more than one block can be visited
+within it. The scheduling of blocks, or the sequence in
+which blocks are harvested within a period, is dealt with at
+the operational level, as it requires consideration of each
+contractor’s capacity and each scheduling alternative.
+
+Constraints
+Equation 2 ensures that harvested volumes on a block do
+not exceed availability. Equations 3 through 5 are used to
+avoid excessive equipment transportation needs. Equation 3
+assigns a value to the binary variables, while [4] and [5]
+limit the number of periods over which harvesting can occur
+on block i and the number of blocks on which harvesting
+can occur during period t, respectively. Each mill is limited
+in the volume of a given resource type that it can receive
+from a specific procurement area, as outlined in its TL. The
+first term of eq. 6 refers to volumes delivered from the firm’s
+own operations, while the second term corresponds to vol-
+umes bought from other suppliers working in the procure-
+ment areas covered by the firm’s TL. The latter are known
+because they are specified in pre-existing contracts between
+two firms. They are important to take into account, since
+they will have an impact on the volumes that can be deliv-
+ered to the firm’s mills from its own operations.
+Next, production constraints limit total production capac-
+ity. Equations 7, 8, and 9 represent the total harvesting,
+transportation, and individual mill processing capacity, re-
+spectively. Aggregated harvesting and transportation capaci-
+ties are considered, rather than those of an individual
+contractor, since no contractor scheduling is attempted.
+Equations 10a through 11c represent classical flow-
+conservation constraints. Our formulation of the problem
+uses a discrete notion of time, where the age of harvested
+wood, a, and period, t, are expressed in the same unit (i.e.,
+weeks). As soon as standing timber is harvested, it is as-
+signed an age of 1 period (week). The age of the harvested
+timber increases with the passing of periods. In eqs. 10a and
+11a, no inventory is held from period t – 1 because the con-
+straints concern the stocking of harvested wood at a = 1,
+which means that the wood is stored during the same period
+it is harvested. Equations 10c and 11c allow for transition
+between subsequent planning horizons. Our formulation of
+the problem takes into account storage in locations of two
+types: roadside and mill yard. Storage at roadside is virtually
+unlimited, involves no capacity constraint, and could easily
+be added if required. Storage capacity at the mill is limited
+according to eq. 12. Finally, to allow planning to ensure ade-
+quate safety stocks of resources, eq. 13 sets a minimum level
+of inventory to be maintained at a mill at the end of a given
+period.
+A firm must satisfy demands for various commodities:
+logs, end products, and chips. Demands originate from con-
+tracts and are considered to be binding. No penalties are in-
+curred for delayed deliveries or lack of freshness. However,
+these may be added as presented in Wee and Wang (1999).
+This study models a production-inventory system for deteri-
+orating items with time-varying demands and completely
+backlogged shortages.. Satisfaction of the demand for logs,
+end products, and chips is expressed by eqs. 15, 16, and 17,
+respectively. Also, because these commodities are used by
+mills for which the quality of the input has a direct impact
+
+on the performance of their processes and the quality of
+their end products, mills have specific requirements regard-
+ing the freshness of their input. Our model does not distin-
+guish between end clients,
+since delivery costs are
+voluntarily omitted. Also, storage and related deterioration
+of end products are not considered, although this would be
+possible as presented in Maness and Norton (2002). Market
+conditions for end products are modeled using market-
+anticipation functions. These functions use valuation levels
+that are bounded by a maximum volume of end product that
+can be sold, as represented in eq. 14.
+
+Description of a hypothetical test case
+
+For the computational experiment, a hypothetical but real-
+istic test case has been developed on the basis of one firm’s
+data from the Mauricie region in Quebec, Canada. It repre-
+sents a situation typical of several forest companies. The
+company operates two softwood lumber mills within the
+same region. The mills are provided with raw material from
+the company’s forest operations and from outside suppliers
+(other companies’ operations). The list of blocks included in
+the case study corresponds to the blocks planned to be har-
+vested in the first year of the 5 year development plan. Ta-
+ble 1 gives an example of data used in the case study.
+The block number, its related procurement area, and the
+available volume of each resource are given. In the hypothet-
+ical test case, 50 blocks are eligible for harvesting during the
+year. Each block holds a specific volume and composition of
+resources; 14 different resources are considered, each be-
+longing to one of four tree species present. Planning is done
+for the whole year, which is divided into 28 periods that vary
+in duration. Also, 11 different ages are considered, to repre-
+sent differences in fiber freshness, and these are grouped
+into three age classes. Furthermore, four valuation levels are
+considered for each age class in a market-anticipation func-
+tion.
+The hypothetical test case is defined by nearly 300 000
+continuous and 1400 binary variables and more than
+100 000 constraints. Through Monte Carlo sampling and us-
+ing probability distribution functions (see Table 2), two dis-
+tinct sets of scenarios have been generated. The first set is
+used to evaluate the deterministic tactical wood procurement
+planning model and the proposed planning process. This set
+contains 11 scenarios, one of which, referred to as the aver-
+age scenario (scenario 11), uses the average values of the
+distribution. The second set, which contains 330 scenarios,
+is used to perform sensitivity analysis. The objective of sen-
+sitivity analysis is to identify the stochastic parameters that
+would lead to the greatest reduction in the variance of the re-
+sponse (objective function). Variance is a proper measure of
+sensitivity if the intention is to rank the input parameters in
+order of importance, even if the model is nonadditive and
+the impact parameters are correlated (Saltelli 2002).
+Only standard deviations expressed as a percentage of the
+average value are presented in Table 2, to preserve the confi-
+dentiality of operations and costs. Standard deviations for
+stumpage fees and valuation levels have been assigned in-
+creasing values over time to reflect the fact that uncertainty
+increases as an event becomes more distant in time.
+
+© 2007 NRC Canada
+
+136
+
+Can. J. For. Res. Vol. 37, 2007
+
+Table 2. Example of probability distribution used in
+Monte Carlo sampling.
+
+Standard deviation (%)
+
+Factor
+Supply
+Standing inventories
+Stumpage fees
+Production
+Productivity
+Harvesting costs
+Transportation cost
+Capacity
+Harvesting
+Transportation
+Storage
+Milling
+Yield coefficient
+End products
+Wood chips
+Clients
+Valuation levels
+
+3.5
+1–5
+
+2
+3.5
+
+4
+4
+1–4
+3
+
+2
+2
+
+1–5
+
+Results and discussion
+
+Deterministic wood procurement planning model
+The deterministic problems were solved with CPLEX 9.1
+on a 2.00 GHz Pentium 4 personal computer with 1.00 GB
+of RAM memory. It took less than 5 min to solve each of
+them within a relative gap of 5%. Computing time makes it
+conceivable to use the proposed model on a regular basis to
+generate many candidate plans and also to use it with a roll-
+ing horizon in order to periodically adjust the procurement
+plan when new developments must be considered.
+Age tracking, along with market-anticipation, is effective
+in managing the wood flow from the forest to the mill to
+maximize value. As is shown by Fig. 4, the age of volumes
+planned to be processed through the mills is coherent with
+the valuation function provided for the hypothetical test
+case. More than 67% of the total volume is 1 week old or
+less and close to 85% is 2 weeks old or less. The model has
+also been tested with bell-shaped valuation functions charac-
+terizing processing costs at an oriented strand board (OSB)
+mill. Similar proportions were obtained with the bulk of pro-
+duction at and around the preferred freshness.
+
+Simulation
+To assess the impact of uncertainty, each candidate plan
+has been evaluated under alternative scenarios using the
+rule-based simulation approach described previously.
+Through the simulations, metrics pertaining to average and
+standard deviation of profit, volumes to be acquired from
+private woodlot owners, and the feasibility of the plan have
+been gathered.
+Average profits and their standard deviations are plotted in
+Fig. 5 for comparison. Analysis using both metrics helps
+draw a more comprehensive picture of the range of profits
+and, thus, the associated financial risk that can be expected
+from the implementation of a plan.
+
+© 2007 NRC Canada
+
+SpruceBalsamPineBirchMapleBlockNo.ProcessingareaIDNo.ABABABABCDABCD641–01736.51269.41490.02637.9———104.0323.6102.2—97.2——841–01807.3189.4716.8774.81594.6990.4————————1642–02——716.4764.9499.6—————51.196.551.41942–021075.91913.6————26.180.8—25.275.3101.3—2243–04975.13086.72047.84053.8—99.9203.9101.5103.1—51.751.7—Table1.Anexampleofinformationusedforfiveblocks.Beaudoin et al.
+
+137
+
+Fig. 4. Age of logs processed through the mills.
+
+Fig. 6. Wood volumes to be purchased from private woodlot
+owners.
+
+Fig. 5. Profitability of the average plan, with the associated stan-
+dard deviation (2σ).
+
+Two conclusions can be drawn from Fig. 5. First, the aver-
+age plan is not the most profitable: 4 of the other 10 plans
+show higher profits. On average, plan 9 should generate
+$467 000, or 8.8% more profit than the average plan. Sec-
+ond, the range of profits that can be expected from the im-
+plementation of a plan varies greatly from one plan to
+another when evaluated from the same scenario sample. Plan
+5 shows less variability around the mean than any other
+plan, while the variability of plans 7, 9, and 10 is over twice
+that of plan 5. The average plan shows 71.6% higher vari-
+ability than plan 5.
+For every plan, the average volumes that are missing and
+therefore have to be made up in order to satisfy agreements
+to supply end products and wood chips are presented in
+Fig. 6. It is important to note that, in general, the implemen-
+tation of any plan requires the purchase of wood volumes
+from private woodlot owners even if the original problems
+were constrained to satisfy all demands. This is a direct re-
+sult of the uncertainty associated with capacities and pro-
+cessing yields. In most cases, an appropriate level of safety
+log yard inventory should absorb these fluctuations. Again,
+based solely on this metric, the average plan is not the best,
+since 4 of the other 10 plans require the purchase of lesser
+volumes.
+The feasibility of these plans is shown in Table 3: this
+metric identifies the proportion of scenarios under which a
+given plan remains feasible. Feasibility varied greatly from
+one plan to another. Plan 7 showed little overall feasibility.
+Still, several plans remained fully feasible in all scenarios. In
+contrast, the average scenario performed poorly, showing
+feasibility in only 50% of the scenarios.
+
+Decision-making
+At the end of this planning exercise, a plan has to be se-
+
+lected for implementation. Figure 7 presents the set of candi-
+date plans to be considered. In the case of a multiobjective
+optimization problem, a multitude of solutions may be con-
+sidered feasible. However, only a subset of these solutions is
+of interest. The subset of nondominated solutions forms the
+trade-off surface (Pareto front), represented by the thick line
+in Fig. 7. A solution is said to dominate another if it is not
+worse on any objective and better on at least one objective.
+In our hypothetical test case, only candidate plans 3, 5, 8,
+and 9 are nondominated and deserve further analysis. The
+other metrics described previously can be used, for example,
+to rank nondominated plans according to the decision-
+maker’s preferences. However, consideration of recourse
+actions could attenuate the importance of the financial risk
+criterion used in identifying the Pareto front by providing
+opportunities not considered in our approach that could gen-
+erate higher profitability. Multicriteria decision-making be-
+ing outside the scope of this paper, we refer the reader to
+Collette and Siarry (2004) for further details on the subject.
+Further testing using a larger number of scenarios would be
+required to determine if the average plan would always be
+among the dominated solutions.
+Once a plan has been picked for implementation, other in-
+formation can be advantageously used.
+For example,
+harvesting and transportation capacity requirements in each
+period can be extracted and utilized to adjust available ca-
+pacity by hiring or dismissing contractors when possible.
+Also, unused mill processing capacity is identified and can
+be used to determine the volume of logs to be purchased
+from private woodlot owners and to schedule delivery time.
+
+Sensitivity analysis
+The objective of sensitivity analysis was to rank the sto-
+chastic parameters in order of importance to identify the
+ones that would lead to the greatest reduction in the variance
+of the response. Table 4 presents the ranking of the parame-
+ters along with the calculated variance of the system’s re-
+sponse.
+The results must be interpreted carefully, since they only
+apply to the system being observed and reflect the probabil-
+ity distribution functions used to represent the uncertainty of
+the parameters. These distributions were estimated on the
+basis of the planner’s experience, since no database with this
+information was available. Any change in a characteristic of
+a given distribution function may have an effect on the cal-
+culated variance associated with that parameter and its rank-
+
+© 2007 NRC Canada
+
+138
+
+Can. J. For. Res. Vol. 37, 2007
+
+Plan
+1
+90
+
+Table 3. Feasibility (%) of each plan.
+
+2
+70
+
+3
+100
+
+4
+100
+
+5
+100
+
+6
+100
+
+7
+20
+
+8
+100
+
+9
+60
+
+10
+90
+
+11
+50
+
+Fig. 7. Trade-off surface.
+
+Table 4. Assessment of the importance of stochastic parameters.
+
+ing. Table 4 clearly shows that the most important parameter
+in determining which is a good plan is our knowledge of the
+standing inventory on the harvest block, followed by market
+anticipation. This observation is in line with the desire to
+plan production (wood procurement and mills) according to
+market conditions in order to create the most value (i.e.,
+generate higher profitability).
+It is also worth noting that within the first four ranked pa-
+rameters, all functional boundaries (procurement, mill pro-
+cessing, sales/marketing) from stump to final product are
+represented. This confirms the importance of integrating de-
+cisions across all functions, as proposed in the tactical wood
+procurement planning model in this paper.
+Based on the hypothetical test case, none of the plans pro-
+vide the entire volume of fiber to which the mills are entitled
+to under their TL. This cannot be attributed to harvesting or
+transportation capacity, since used capacity is lower than, or
+equal to, available capacity in every period. Also, according
+to market valuations of end products manufactured by the
+mills, it should be advantageous for the mills to process all
+the fiber they are allowed to. The problem arises from the
+fact that most stands to be harvested are mixed, which
+means that several tree species are present on the same
+block. A mill may have rights to only some of them, while a
+harvesting cost and stumpage fee are incurred for all the vol-
+umes harvested, regardless of whether they are required or
+not. Unless the undesirable or excess harvested volumes are
+to be delivered to other companies’ mills, it is uneconomical
+to harvest. These stands become economically viable only if
+the undesirable volumes, along with their associated costs,
+can be passed to another firm. This highlights the joint de-
+pendency of companies sharing a procurement area. It also
+serves to demonstrate the importance of collaboration be-
+tween these firms in order to optimize their operations.
+
+Conclusions and future work
+
+Wood procurement planning is, by its nature, a very com-
+
+Ranking
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+
+Factor
+Standing inventories
+Valuation levels
+Mills’ capacity
+Harvesting cost
+End-product yield
+Stumpage
+Transporation cost
+Wood-chip yield
+Harvesting capacity
+Transporation capacity
+Storage capacity
+
+Variance
+274 315 343 220
+1 973 485 275
+1 885 918 255
+1 718 427 385
+1 279 840 492
+675 567 787
+472 818 669
+113 647 447
+5 778 086
+3 536 931
+713 377
+
+plex process. This paper introduces a detailed model that
+supports centralized wood procurement planning by a com-
+pany which may own many mills, and allows for wood ex-
+changes between companies.
+We have presented an
+extension of the market mechanism of Maness (1989) that
+takes into account both fiber freshness and the notion of
+quality linked to the age of the fiber. We have also presented
+a planning process that permits the generation and evalua-
+tion of alternative plans in an uncertain environment.
+The results show that it is possible to manage the fiber
+flow from stump to end market taking its freshness into ac-
+count in order to extract higher value from the logs pro-
+cessed in the mills. Close to 85% of the total volume
+planned to be processed at the mill sites is 2 weeks of age or
+less, meaning that even in the warmer months of the year, fi-
+ber deterioration is limited.
+Plans developed with the deterministic model can be sen-
+sitive to a change in a parameter’s value. Therefore, a plan
+chosen for implementation may not remain the best alterna-
+tive if unfolding events cause parameter values to differ sig-
+nificantly from those that were expected.
+However,
+a
+computing time of less than 5 min makes it conceivable to
+use the proposed model with a rolling horizon in order to pe-
+riodically adjust the procurement plan when new develop-
+ments must be considered, and even to directly consider
+recourse in the simulation-based analysis of robustness.
+Nowadays, planning is still largely done using intuition,
+with little, if any, mathematical programming support. Yet
+examples of benefits can be found in the literature, suggest-
+ing an increase (decrease) in profits (costs) averaging 5%
+when decisions are supported by deterministic mathematical
+programming (Burger 1991; Williamson and Nieuwenhuis
+1993; Hecker et al. 2000; Bergdahl et al. 2003). Testing the
+described planning process in a hypothetical test case per-
+mitted the identification of a plan that generated an average
+of 8.8% more profit than the average plan found using the
+proposed deterministic model alone. This result enables us
+to anticipate the significant benefits that could be obtained
+by using the proposed model and planning process rather
+
+© 2007 NRC Canada
+
+Beaudoin et al.
+
+139
+
+than the manual planning process. However, the potential
+benefits are highly dependent on such factors as the spatial
+distribution of harvest blocks and mills, stand composition,
+the number of beneficiaries on the same procurement areas,
+and the level of uncertainty.
+The results also demonstrate that using a deterministic
+model in a nondeterministic environment can give rise to false
+expectations, thus stressing the importance of analyzing and
+validating the so-called optimal plan. Based on our hypotheti-
+cal test case, the optimal deterministic plan is not the optimal
+plan when uncertainty is considered. Also, the optimal deter-
+ministic plan does not satisfy all demands when it is simu-
+lated in different scenarios, even though it was constrained to
+do so in the development of the plan. Moreover, it gives no
+indication of the financial risk, nor of the risk associated with
+the feasibility of the plan that is incurred through its imple-
+mentation. A plan obtained by optimizing average parameter
+values should not be considered the optimal plan to be imple-
+mented as is. It should, rather, be looked upon as a first-cut
+solution, or merely a plan on which to build.
+In addition, consideration of recourse actions could atten-
+uate the importance of the financial risk criterion used for
+identifying the Pareto front by providing opportunities not
+considered in our approach. These new opportunities could
+generate higher profitability. Therefore, a recourse mecha-
+nism will be included in the planning process in order to
+make new planning decisions as events unfold, as in Myers
+(2004).
+Also, the proposed formulation of the deterministic model
+allows us to take into account final agreements between
+companies. Yet the complex dynamic of the interaction among
+companies when negotiating agreements deserves further re-
+search.
+Finally, the deterministic model presented in this paper,
+when used in combination with the harvest block sequencing
+and equipment transportation model introduced in Beaudoin
+et al. (2005), allows for cost/value analyses. These analyses
+will examine trade-offs between an increase in equipment
+transportation cost and reductions of costs incurred by hold-
+ing inventories, lost opportunities, and loss of value caused
+by fiber deterioration.
+
+Acknowledgements
+
+This work was funded by the Research Consortium in
+E-Business in the Forest Products Industry (FOR@C) and
+supported by the Network Organization Technology Re-
+search Center (CENTOR).
+
+References
+
+Beaudoin, D., Frayret, J.-M., and LeBel, L.G. 2005. Harvest block
+sequencing and equipment transportation synchronization. Doc-
+ument de travail DT-2005-JMF-7, CENTOR, Université Laval,
+Québec, Que.
+Bergdahl, A., Örtendahl, A., and Fjeld, D. 2003. The economic po-
+tential for optimal destination of roundwood in north Sweden —
+effects of planning horizon and delivery precision. Int. J. For.
+Eng. 14: 1–15.
+Bicho, P. 2002. Chip storage issues. In Proceedings of the Confer-
+ence on Wood Storage: Issues and Solutions, 26 March 2002,
+Pointe-Claire, Que. Forest Engineering Institute of Canada,
+
+Pointe-Clarie, Que., the Pulp and Paper Research Institute of
+Canada,
+Pointe-Claire,
+Que.,
+and Forintek Canada Corp.,
+Québec, Que. [CD-ROM.]
+Burger, D.H. 1991. Analysis of wood procurement and distribution
+problems using linear programming. M.Sc. thesis, University of
+New Brunswick, Fredericton, N.B.
+Burger, D.H., and Jamnick, M.S. 1995. Harvest and distribution
+decisions. For. Chron. 71: 89–96.
+Carlsson, D., Rönnqvist, M., and Westerlund, A. 1998. Extraction
+of logs in forestry using operations research techniques. LiTH-
+MAT-R-1998-17, University of Linköping, Linköping, Sweden.
+Collette, Y., and Siarry, P. 2004. Multiobjective optimization —
+principles and case studies. 2nd ed. Springer-Verlag, Berlin and
+Heidelberg, Germany.
+Frayret, J.-M., D’Amours, S., and Montreuil, B. 2004. Co-
+ordination and control in distributed and agent-based manufac-
+turing systems. Prod. Plan. Control, 15: 1–13.
+Gingras, J.-F., and Sotomayor, J. 1992. Les variations de teneur en
+humidité du bois dans les opérations forestières : une étude de
+cas. Fiche tech. FT-192, Institut canadien de recherches en génie
+forestier, Pointe-Claire, Que.
+Goetschalckx, M., Ahmed, S., Shapiro, A., and Santoso, T. 2001.
+Designing flexible and robust supply chains. In Proceedings of
+the 3rd International Conference on Industrial Engineering and
+Production Management, 20–23 August 2001, Québec, Que.
+CENTOR, Université Laval, Québec, Que. pp. 539–552.
+Hecker, M., Becker, G., and Ressmann, J. 2000. Estimating benefit
+potentials in German logistics for wood procurement and timber
+logging. In Logistics in the forest sector. Edited by K. Sjöström.
+Timber Logistics Club, Helsinki, Finland. pp. 153–164.
+Karlsson, J., Rönnqvist, M., and Bergström, J. 2003. Short-term
+harvest planning including scheduling of harvest crews. Int.
+Trans. Oper. Res. 10: 413–431.
+Karlsson, J., Rönnqvist, M., and Bergström, J. 2004. An optimiza-
+tion model for annual harvest planning. Can. J. For. Res. 34:
+1747–1754.
+Kreber, B., Kimberley, M., Eden, D., Chittenden, C., Van Der
+Waals, J., Wakeling, R., and Dorset, I. 2001. Arrest of fungal
+pre-infections in raw logs and freshly sawn lumber of radiata
+pine using Sentry®. Forest Prod. J. 51: 66–72.
+Laganière, B., and Defo, M. 2002. Moisture content affecting effi-
+ciency of sawmill and OSB Plants. In Proceedings of the Con-
+ference on Wood Storage: Issues and Solutions, 26 March 2002,
+Pointe-Claire, Que. Forest Engineering Institute of Canada,
+Pointe-Claire, Que., the Pulp and Paper Research Institute of
+Canada, Pointe-Claire, Que., and Forintek Canada Corp., Qué-
+bec, Que. [CD-ROM.]
+Maness, T.C. 1989. A technique for the combined optimization of
+sawing and bucking strategies. Ph.D. dissertation, University of
+Washington, Seattle, Wash.
+Maness, T.C., and Norton, S.E. 2002. Multiple period combined
+optimization approach to forest production planning. Scand. J.
+For. Res. 17: 460–471.
+Martell, D.L., Gunn, E.A., and Weintraub, A. 1998. Forest man-
+agement challenges for operational researchers. Eur. J. Oper.
+Res. 104: 1–17.
+Myers, J.A. 2004. Analysis of robustness of operational plans.
+M.Sc. For. Eng. thesis. University of New Brunswick, Frederic-
+ton, N.B.
+Novak, D.C., and Ragsdale, C.T. 2003. A decision support method-
+ology for stochastic multi-criteria linear programming using
+spreadsheets. Decis. Support Syst. 36: 99–116.
+Saltelli, A. 2002. Sensitivity analysis for importance assessment.
+Risk Anal. 22: 579–590.
+
+© 2007 NRC Canada
+
+140
+
+Can. J. For. Res. Vol. 37, 2007
+
+Shapiro, J.F. 2001. Fundamentals of optimization models: linear
+programming. In Modeling the supply chain. Duxbury/Thomson
+Learning, Pacific Grove, Calif. pp. 63–124.
+Wee, H.M., and Wang, W.T. 1999. A variable production schedul-
+ing policy for deteriorating items with time-varying demand.
+Comput. Oper. Res. 26: 237–254.
+Weintraub, A., and Bare, B.B. 1996. New issues in forest land
+management from an operations research perspective. Interfaces,
+26: 9–25.
+Weintraub, A., Epstein, R., Seron, J., and Traverso, P. 1996. A
+truck scheduling system improves efficiency in the forest indus-
+tries. Interfaces, 26: 1–12.
+Wightman, R., and Jordan, G. 1990. Harvest distribution planning
+in New Brunswick. CPPA Woodlands Pap. August: 19–22.
+
+Williamson, G., and Nieuwenhuis, M. 1993. Integrated timber allo-
+cation and transportation planning in Ireland. Int. J. For. Eng. 5:
+7–15.
+Wood, J. 2002. Pulp production affected by storage period. In Pro-
+ceedings of the Conference on Wood Storage: Issues and Solu-
+tions, 26 March 2002, Pointe-Claire, Que. Forest Engineering
+Institute of Canada, Pointe-Claire, Que., the Pulp and Paper Re-
+search Institute of Canada, Pointe-Claire, Que., and Forintek
+Canada Corp., Québec, Que. [CD-ROM.]
+Yang, D.-Q., and Beauregard, R. 2001. Check development on jack
+pine logs in eastern Canada. For. Prod. J. 51: 63–65.
+Yang, D.-Q., Gagné, P., Uzunovic, A., Gignac, M., and Bernier, L.
+1999. Development of fungal stain in logs of three Canadian
+softwoods. For. Prod. J. 49: 39–42.
+
+© 2007 NRC Canada
+
+
